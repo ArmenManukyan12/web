@@ -1,8 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import ROUTES from "../../Rountes";
 import "./Nav.css";
 
 const Nav = () => {
+  const token = localStorage.getItem("authToken");
   return (
     <nav className="navbar">
       <div className="logo">Logo</div>
@@ -33,13 +35,19 @@ const Nav = () => {
           </NavLink>
         </li>
       </ul>
-      <NavLink
-        to="/login"
-        activeClassName="active-link"
-        className="login-button"
-      >
-        Log In
-      </NavLink>
+      {!token ? (
+        <>
+          <NavLink to="/login" ClassName="active-link"  className="login-button">
+            Log In
+          </NavLink>
+        </>
+      ) : (
+        <>
+            <NavLink to="/logout" ClassName="active-link" className="links">
+              LogOut
+            </NavLink>
+        </>
+      )}
       <button className="navbar-toggle">
         <i className="fas fa-bars"></i>
       </button>

@@ -42,7 +42,8 @@
   color: #5a9;
 }
 
-.login-button {
+
+.login-button, .links {
   background-color: #5a9;
   color: white;
   border: none;
@@ -54,7 +55,7 @@
   transition: background-color 0.3s;
 }
 
-.login-button:hover {
+.login-button:hover, .links:hover {
   background-color: #4682b4;
 }
 
