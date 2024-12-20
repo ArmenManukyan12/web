@@ -16,9 +16,15 @@
 
 .logo {
   font-size: 24px;
+  
   font-weight: bold;
   text-transform: uppercase;
   cursor: pointer;
+}
+.logoImg{
+  width: 50px;
+  border-radius: 50%;
+  
 }
 
 .nav-links {
@@ -34,8 +40,7 @@
 }
 
 .nav-links li .active-link {
-  color: #5a9;
-  border-bottom: 2px solid #5a9;
+  color: #fff;
 }
 
 .nav-links li a:hover {
@@ -76,7 +81,6 @@
 
   .nav-links {
     display: none;
-    
     width: 100%;
   }
 

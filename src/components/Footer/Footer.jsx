@@ -7,13 +7,13 @@ const Footer = () => {
     <footer className="footer">
       <p>&copy; {new Date().getFullYear()} CodingNepal. All Rights Reserved.</p>
       <div className="footer-links">
-        <NavLink to="/privacy-policy" activeClassName="active-link">
+        <NavLink to="/privacy-policy" className="active-link">
           Privacy Policy
         </NavLink>
-        <NavLink to="/terms" activeClassName="active-link">
+        <NavLink to="/terms" className="active-link">
           Terms of Service
         </NavLink>
-        <NavLink to="/contact" activeClassName="active-link">
+        <NavLink to="/contact" className="active-link">
           Contact
         </NavLink>
       </div>

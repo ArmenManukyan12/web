@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Nav from "../../components/Nav/Nav";
+// import Nav from "../../components/Nav/Nav";
 import ROUTES from "../../Rountes";
 
 import "./Profile.css";
