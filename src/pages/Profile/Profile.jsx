@@ -1,73 +1,57 @@
-import React from 'react';
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import Nav from "../../components/Nav/Nav";
 import ROUTES from "../../Rountes";
-import { useNavigate } from "react-router-dom";
-import instance from "../../axios";
+
 import "./Profile.css";
 
-
-
-export const Profile = () => {
+const Profile = () => {
   const navigate = useNavigate();
-
-
   const token = localStorage.getItem("authToken");
-  
+  const userID = localStorage.getItem("userID");
+
+  const [userData, setUserData] = useState(null);
+  const [message, setMessage] = useState("");
+
   useEffect(() => {
     if (!token) {
       navigate(ROUTES.LOGIN);
     }
   }, [token, navigate]);
 
-
-
-  const [message, setMessage] = useState("");
-  const [usersData, setUsersData] = useState([]);
-
-  const getUserData = async (userId) => {
-
+  const fetchUserData = async () => {
     try {
-      const response = await instance({
-        method: "GET",
-        params: {
-          id: userId,
-        },
-      });
-  
-      if (response.data.length > 0) {
-        setUsersData(response.data[0]);
-        setMessage("");
-  
+      const { data } = await axios.get(`http://localhost:3001/users?id=${userID}`);
+      if (data.length > 0) {
+        setUserData(data[0]);
       } else {
-        setMessage("Something gets wrong");
+        setMessage("User not found.");
       }
-    }
-  
-    catch (error) {
-      setMessage("Something gets wrong");
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      setMessage("An error occurred while fetching user data.");
     }
   };
 
-  const userID = localStorage.getItem('userID');
-
   useEffect(() => {
-    getUserData(userID);
+    fetchUserData();
   }, []);
 
   return (
     <>
-    <Nav />
-    <div className='profile_div'>
-      <p>{message}</p>
-      <h1>Hello {usersData.firstname}</h1>
-
-      <div className="user">
-        <h1>Name: {usersData.firstname} {usersData.lastname}</h1>
-        <h2>Email: {usersData.email}</h2>
+      <div className="profile_div">
+        {message && <p>{message}</p>}
+        {userData && (
+          <div className="user">
+            <h1>Hello {userData.firstname}</h1>
+            <h2>Name: {userData.firstname} {userData.lastname}</h2>
+            <h3>Email: {userData.email}</h3>
+          </div>
+        )}
       </div>
-
-    </div>
     </>
-  )
-}
+  );
+};
+
+export default Profile;

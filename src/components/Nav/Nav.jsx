@@ -1,40 +1,49 @@
 import React from "react";
-
-import "./Nav.css";
 import { NavLink } from "react-router-dom";
-import ROUTES from "../../Rountes";
+import "./Nav.css";
 
 const Nav = () => {
-
-  const token = localStorage.getItem("authToken");
-
   return (
-    <div className="nav">
-      <ul>
-        {!token ?
-          <>
-            <li>
-              <NavLink to={ROUTES.LOGIN} className="links">
-                Login
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to={ROUTES.REGISTER} className="links">
-                Register
-              </NavLink>
-            </li>
-          </>
-          :
-          <>
-            <li>
-              <NavLink to={ROUTES.LOGOUT} className="links">
-                LogOut
-              </NavLink>
-            </li>
-          </>
-        }
+    <nav className="navbar">
+      <div className="logo">Logo</div>
+      <ul className="nav-links">
+        <li>
+          <NavLink to="/home" activeClassName="active-link">
+            Home
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/portfolio" activeClassName="active-link">
+            Portfolio
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/courses" activeClassName="active-link">
+            Courses
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/about" activeClassName="active-link">
+            About Us
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/contact" activeClassName="active-link">
+            Contact Us
+          </NavLink>
+        </li>
       </ul>
-    </div>
+      <NavLink
+        to="/login"
+        activeClassName="active-link"
+        className="login-button"
+      >
+        Log In
+      </NavLink>
+      <button className="navbar-toggle">
+        <i className="fas fa-bars"></i>
+      </button>
+    </nav>
   );
 };
 

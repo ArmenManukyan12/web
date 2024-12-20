@@ -1,138 +1,81 @@
-import React from 'react';
-import Nav from "../../components/Nav/Nav";
-import { useState, useEffect } from "react";
+import React from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import ROUTES from "../../Rountes";
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
 import axios from "axios";
-import instance from "../../axios";
-import { nanoid } from "nanoid";
+import { toast } from "react-toastify";
+import ROUTES from "../../Rountes";
 import "./Register.css";
 
-
-export const Register = () => {
-  const [message, setMessage] = useState("");
+const Register = () => {
   const navigate = useNavigate();
 
-  const checklogin = useNavigate();
-  const token = localStorage.getItem("authToken");
-
-  useEffect(() => {
-    if (token) {
-      checklogin(ROUTES.PROFILE);
-    }
-  }, [token, checklogin]);
-
-
   const validationSchema = Yup.object({
-    email: Yup.string()
-      .email('Invalid email')
-      .required('Email is required'),
-    firstName: Yup.string()
-      .required('FirstName is required'),
-    lastName: Yup.string()
-      .required('LastName is required'),
-    password: Yup.string()
-      .min(6, 'Password must be at least 6 characters')
-      .required('Password is required'),
-    cpassword: Yup.string()
-      .min(6, 'Password must be at least 6 characters')
-      .oneOf([Yup.ref('password'), null], 'Passwords must match')
-      .required('Password is required'),
+    username: Yup.string().required("Required"),
+    lastname: Yup.string().required("Required"),
+    email: Yup.string().email("Invalid email").required("Required"),
+    password: Yup.string().min(6, "Minimum 6 characters").required("Required"),
   });
 
-  const initialValues = {
-    email: "",
-    firstName: "",
-    lastName: "",
-    password: "",
-    cpassword: "",
-  };
-
-
-  //   const checkEmailExists = async (inputedemail) => {
-
-  // };
-
-
-  const addUser = async (values, formikEvent) => {
+  const handleSubmit = async (values, { resetForm }) => {
     try {
-      const response = await instance({
-        method: "GET",
-        params: {
-          email: values.email,
-        },
+      const { data } = await axios.get("http://localhost:3001/users");
+      const userExists = data.find((user) => user.email === values.email);
+
+      if (userExists) {
+        toast.error("Email already exists. Please use a different email.");
+        return;
+      }
+
+      await axios.post("http://localhost:3001/users", {
+        id: Date.now().toString(),
+        firstname: values.username,
+        lastname: values.lastname,
+        email: values.email,
+        password: values.password,
       });
 
-      if (response.data.length > 0) {
-        setMessage("Email is already exists");
-      } else {
-        try {
-          const response = await instance({
-            method: "POST",
-            data: {
-              id: nanoid(9),
-              firstname: values.firstName,
-              lastname: values.lastName,
-              email: values.email,
-              password: values.password,
-            }
-          });
-
-          if (response.data) {
-            setMessage("");
-            localStorage.setItem("authToken", response.token);
-            localStorage.setItem("userID", response.data.id);
-            navigate(ROUTES.PROFILE);
-          } else {
-            setMessage("Something went wrong.");
-          }
-        }
-
-        catch (error) {
-          setMessage("This error:", error);
-        }
-
-        formikEvent.resetForm();
-      }
-    }
-
-    catch (error) {
-      setMessage("This error:", error);
+      toast.success("Registration successful! You can now log in.");
+      resetForm();
+      navigate(ROUTES.LOGIN);
+    } catch (error) {
+      toast.error("An error occurred. Please try again.");
     }
   };
 
-
   return (
-    <>
-      <Nav />
-      <div className='register_div'>
+    <div className="register-container">
+      <div className="register-box">
         <h1>Register</h1>
-        <p>{message}</p>
         <Formik
-          initialValues={initialValues}
+          initialValues={{ username: "", lastname: "", email: "", password: "" }}
           validationSchema={validationSchema}
-          onSubmit={(values, formikEvent) => addUser(values, formikEvent)}
+          onSubmit={handleSubmit}
         >
-          {() => (
-            <Form>
-              <Field type="email" placeholder="Email" name="email" />
-              <p><ErrorMessage name="email" /></p>
-              <Field type="text" placeholder="First Name" name="firstName" />
-              <p><ErrorMessage name="firstName" /></p>
-              <Field type="text" placeholder="Last Name" name="lastName" />
-              <p><ErrorMessage name="lastName" /></p>
-              <Field type="password" placeholder="Password" name="password" />
-              <p><ErrorMessage name="password" /></p>
-              <Field type="password" placeholder="Confirm Password" name="cpassword" />
-              <p><ErrorMessage name="cpassword" /></p>
-              <button type="submit">Register</button>
-            </Form>
-          )}
+          <Form>
+            <Field type="text" name="username" placeholder="First Name" />
+            <ErrorMessage name="username" component="p" />
+            <Field type="text" name="lastname" placeholder="Last Name" />
+            <ErrorMessage name="lastname" component="p" />
+            <Field type="email" name="email" placeholder="Email" />
+            <ErrorMessage name="email" component="p" />
+            <Field type="password" name="password" placeholder="Password" />
+            <ErrorMessage name="password" component="p" />
+            <button type="submit">Register</button>
+          </Form>
         </Formik>
-
+        <p>
+          Already have an account?{" "}
+          <span
+            style={{ color: "blue", cursor: "pointer" }}
+            onClick={() => navigate(ROUTES.LOGIN)}
+          >
+            Login
+          </span>
+        </p>
       </div>
-    </>
-  )
-}
+    </div>
+  );
+};
+
+export default Register;

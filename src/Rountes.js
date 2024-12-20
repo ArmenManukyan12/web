@@ -1,5 +1,5 @@
 const ROUTES = {
-    LOGIN: "/",
+    LOGIN: "/login",
     REGISTER: "/register",
     PROFILE: "/profile",
     LOGOUT: "/logout",

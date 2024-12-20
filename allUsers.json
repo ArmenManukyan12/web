@@ -69,6 +69,27 @@
       "lastname": "Manukyan",
       "email": "armen-manukyan-1999@mail.ru",
       "password": "Arm+123"
+    },
+    {
+      "id": "1734646010516",
+      "firstname": "a_77m_77",
+      "lastname": "manukyan",
+      "email": "armen-manukyan-1999@mail.ro",
+      "password": "Armen-123"
+    },
+    {
+      "id": "1734646259986",
+      "firstname": "ddddd",
+      "lastname": "Krossing",
+      "email": "armenmanukyan80@gmail.com",
+      "password": "Arm123+"
+    },
+    {
+      "id": "1734672855184",
+      "firstname": "aaa",
+      "lastname": "aaaa",
+      "email": "armenmanukyan80@gmail.comm",
+      "password": "Arm+1234"
     }
   ]
 }
