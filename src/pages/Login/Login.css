@@ -5,11 +5,13 @@
 }
 
 .login-container {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 85.5vh;
-  background: var(--background-color);
+  background: var(--background-color)no-repeat center center;
+  background-size: cover;
   position: relative;
 }
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 // import ROUTES from "../../Rountes";
-import logo from "../../assets/images/logo.jpg";
+import logo from "../../assets/images/logo.png";
 import "./Nav.css";
 
 
@@ -14,7 +14,7 @@ const Nav = () => {
       </div>
       <ul className="nav-links">
         <li>
-          <NavLink to="/login" className="active-link">
+          <NavLink to="/" className="active-link">
             Home
           </NavLink>
         </li>
@@ -39,19 +39,6 @@ const Nav = () => {
           </NavLink>
         </li>
       </ul>
-      {!token ? (
-        <>
-          <NavLink to="/login" className="active-link login-button">
-            Log In
-          </NavLink>
-        </>
-      ) : (
-        <>
-          <NavLink to="/logout" className="active-link links">
-            LogOut
-          </NavLink>
-        </>
-      )}
       <button className="navbar-toggle">
         <i className="fas fa-bars"></i>
       </button>
