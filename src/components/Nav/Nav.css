@@ -54,6 +54,9 @@
   .navbar {
     align-items: flex-start;
     padding: 10px;
+    margin: auto;
+    color: white;
+    display: block;
   }
 
   .nav-links {
